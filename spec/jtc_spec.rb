@@ -4,8 +4,11 @@ require 'jtc'
 
 RSpec.describe JTC do
   describe '#convert' do
-    it 'returns true' do
-      expect(described_class.convert('')).to eq(true)
+    let(:input) { File.read(load_test_data('users.json')) }
+    let(:output) { File.read(load_test_data('users.csv')) }
+
+    it 'returns a valid csv string' do
+      expect(described_class.convert(input)).to eq(output)
     end
   end
 end
