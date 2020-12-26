@@ -7,7 +7,7 @@ RSpec.describe JTC do
     let(:input) { File.read(load_test_data('users.json')) }
     let(:output) { File.read(load_test_data('users.csv')) }
 
-    it 'returns a valid csv string' do
+    it 'converts a JSON string to a valid CSV string' do
       expect(described_class.convert(input)).to eq(output)
     end
   end
