@@ -25,5 +25,9 @@ RSpec.describe JTC do
       input = File.read(load_test_data('unbalanced.json'))
       expect { described_class.convert(input) }.to raise_error(JTC::UnbalancedObject)
     end
+
+    it 'raises a `JTC::EmptyArray` if given an empty JSON array' do
+      expect { described_class.convert('[]') }.to raise_error(JTC::EmptyArray)
+    end
   end
 end

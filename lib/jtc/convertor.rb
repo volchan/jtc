@@ -33,6 +33,7 @@ module JTC
 
     def validate_json!
       raise JTC::ParsingError, 'JSON is not an array' unless parsed_json.is_a?(Array)
+      raise JTC::EmptyArray, 'JSON Array must have at least one object' unless parsed_json.size.positive?
       raise JTC::UnbalancedObject, 'Objects are unbalanced' unless balanced?
     end
 
