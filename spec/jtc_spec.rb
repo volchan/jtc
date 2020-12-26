@@ -15,5 +15,10 @@ RSpec.describe JTC do
     it 'raises a `JTC::ParsingError` if given an invalid JSON string' do
       expect { described_class.convert(input[0..-5]) }.to raise_error(JTC::ParsingError)
     end
+
+    it 'raises a `JTC::UnbalancedObject` if given a JSON array with unbalanced objects' do
+      input = File.read(load_test_data('unbalanced.json'))
+      expect { described_class.convert(input) }.to raise_error(JTC::UnbalancedObject)
+    end
   end
 end

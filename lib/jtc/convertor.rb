@@ -15,6 +15,7 @@ module JTC
     def initialize(json)
       @json = json
       @headers = nil
+      validate_json!
     end
 
     def call
@@ -29,6 +30,15 @@ module JTC
     end
 
     private
+
+    def validate_json!
+      parsed_json
+      raise JTC::UnbalancedObject, 'Objects are unbalanced' unless balanced?
+    end
+
+    def balanced?
+      parsed_json.map { |object| generate_csv_header(object) }.uniq.size == 1
+    end
 
     def parsed_json
       @parsed_json ||= JSON.parse(json)

@@ -2,4 +2,6 @@
 
 module JTC
   class ParsingError < StandardError; end
+
+  class UnbalancedObject < ParsingError; end
 end
