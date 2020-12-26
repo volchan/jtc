@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'errors'
+
 module JTC
   class Convertor
     attr_reader :json
@@ -16,7 +18,6 @@ module JTC
     end
 
     def call
-      parsed_json = JSON.parse(json)
       self.headers = generate_csv_header(parsed_json.first)
 
       CSV.generate do |csv|
@@ -28,6 +29,12 @@ module JTC
     end
 
     private
+
+    def parsed_json
+      @parsed_json ||= JSON.parse(json)
+    rescue JSON::ParserError, TypeError
+      raise ParsingError, 'Invalid JSON string'
+    end
 
     def generate_csv_header(json)
       json.flat_map do |key, value|
