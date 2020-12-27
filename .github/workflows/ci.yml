@@ -1,0 +1,73 @@
+env:
+  RUBY_VERSION: 3.0.0
+
+name: CI
+on: [push,pull_request]
+
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+
+      - name: Ruby gem cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install gems
+        env:
+          BUNDLE_GITHUB__COM: ${{ secrets.REPOS_ACCESS_TOKEN_FOR_CI }}
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Check code
+        run: bundle exec rubocop -c .rubocop.yml
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+
+      - name: Ruby gem cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install gems
+        env:
+          BUNDLE_GITHUB__COM: ${{ secrets.REPOS_ACCESS_TOKEN_FOR_CI }}
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Configure inotify
+        run: |
+          sudo sysctl fs.inotify.max_user_instances=524288
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl fs.inotify.max_queued_events=524288
+          sudo sysctl -p
+
+      - name: Run tests
+        run: bundle exec rspec
