@@ -13,7 +13,7 @@ module JTC
     def convert(json)
       parsed_json = Parser.parse(json)
       Validator.validate_json!(parsed_json)
-      Convertor.new(parsed_json).call
+      Convertor.convert!(parsed_json)
     end
   end
 end

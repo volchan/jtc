@@ -13,6 +13,12 @@ module JTC
 
     public
 
+    class <<self
+      def convert!(json)
+        new(json).call
+      end
+    end
+
     def initialize(json)
       @json = json
       @headers = nil
