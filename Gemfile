@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.0.0'
 
+gem 'codecov', require: false
 gem 'overcommit'
 gem 'pry'
 gem 'rspec'
