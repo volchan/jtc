@@ -13,7 +13,6 @@ module JTC
     def initialize(json)
       @json = json
       @headers = nil
-      validate_json!
     end
 
     def call
@@ -28,16 +27,6 @@ module JTC
     end
 
     private
-
-    def validate_json!
-      raise JTC::ParsingError, 'JSON is not an array' unless json.is_a?(Array)
-      raise JTC::EmptyArray, 'JSON Array must have at least one object' unless json.size.positive?
-      raise JTC::UnbalancedObject, 'Objects are unbalanced' unless balanced?
-    end
-
-    def balanced?
-      json.map { |object| generate_csv_header(object) }.uniq.size == 1
-    end
 
     def generate_csv_header(json)
       json.flat_map do |key, value|
