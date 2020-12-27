@@ -7,4 +7,4 @@ SimpleCov.start do
   enable_coverage :branch
 end
 
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
+SimpleCov.formatter = SimpleCov::Formatter::Codecov if ENV['CODECOV_TOKEN']
