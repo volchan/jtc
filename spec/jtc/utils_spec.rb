@@ -13,7 +13,7 @@ end
 
 RSpec.describe JTC::Utils do
   describe '#generate_csv_header' do
-    let(:input) { JTC::Parser.parse(File.read(load_test_data('users.json'))).first }
+    let(:input) { JTC::Parser.parse!(File.read(load_test_data('users.json'))).first }
     let(:valid_output) do
       %w[
         id

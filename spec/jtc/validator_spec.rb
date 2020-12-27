@@ -9,19 +9,19 @@ RSpec.describe JTC::Validator do
   it_behaves_like 'Utils'
 
   describe '#validate_json!' do
-    let(:input) { JTC::Parser.parse(File.read(load_test_data('users.json'))) }
+    let(:input) { JTC::Parser.parse!(File.read(load_test_data('users.json'))) }
 
     it 'validates a JSON string' do
       expect { described_class.validate_json!(input) }.not_to raise_error
     end
 
     it 'raises a `JTC::NonArray` if an Array' do
-      input = JTC::Parser.parse(File.read(load_test_data('not_array.json')))
+      input = JTC::Parser.parse!(File.read(load_test_data('not_array.json')))
       expect { described_class.validate_json!(input) }.to raise_error(JTC::ParsingError)
     end
 
     it 'raises a `JTC::UnbalancedObject` if given an Array with unbalanced Hashes' do
-      input = JTC::Parser.parse(File.read(load_test_data('unbalanced.json')))
+      input = JTC::Parser.parse!(File.read(load_test_data('unbalanced.json')))
       expect { described_class.validate_json!(input) }.to raise_error(JTC::UnbalancedObject)
     end
 

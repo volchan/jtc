@@ -9,7 +9,7 @@ RSpec.describe JTC::Convertor do
   it_behaves_like 'Utils'
 
   describe '#convert!' do
-    let(:input) { JTC::Parser.parse(File.read(load_test_data('users.json'))) }
+    let(:input) { JTC::Parser.parse!(File.read(load_test_data('users.json'))) }
     let(:output) { File.read(load_test_data('users.csv')) }
 
     it 'converts a JSON string to a valid CSV string' do

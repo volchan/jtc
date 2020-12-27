@@ -11,7 +11,7 @@ module JTC
     public
 
     class <<self
-      def parse(json)
+      def parse!(json)
         new(json).call
       end
     end
@@ -22,7 +22,7 @@ module JTC
     end
 
     def call
-      self.parsed_json = JSON.parse(json)
+      self.parsed_json = JSON.parse!(json)
     rescue JSON::ParserError, TypeError
       raise ParsingError, 'Invalid JSON string'
     end
