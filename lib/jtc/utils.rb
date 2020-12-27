@@ -5,7 +5,8 @@ module JTC
     private
 
     def generate_csv_header(json)
-      json.flat_map do |key, value|
+      @generate_csv_header ||= {}
+      @generate_csv_header[json] ||= json.flat_map do |key, value|
         next key unless value.is_a?(Hash)
 
         generate_csv_header(value).map { |head| [key, head].join('.') }
