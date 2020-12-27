@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'utils'
 module JTC
   class Validator
+    include Utils
+
     attr_reader :json
 
     class <<self
@@ -24,14 +27,6 @@ module JTC
 
     def balanced?
       json.map { |object| generate_csv_header(object) }.uniq.size == 1
-    end
-
-    def generate_csv_header(json)
-      json.flat_map do |key, value|
-        next key unless value.is_a?(Hash)
-
-        generate_csv_header(value).map { |head| [key, head].join('.') }
-      end
     end
   end
 end

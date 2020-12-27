@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'utils'
 module JTC
   class Convertor
+    include Utils
+
     attr_reader :json
 
     private
@@ -27,14 +30,6 @@ module JTC
     end
 
     private
-
-    def generate_csv_header(json)
-      json.flat_map do |key, value|
-        next key unless value.is_a?(Hash)
-
-        generate_csv_header(value).map { |head| [key, head].join('.') }
-      end
-    end
 
     def generate_csv_line(object)
       headers.map do |header|

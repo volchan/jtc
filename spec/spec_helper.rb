@@ -101,4 +101,4 @@ RSpec.configure do |config|
 =end
 end
 
-Dir["#{__dir__}/support/*.rb"].sort.each { |path| require(path) }
+Dir["#{__dir__}/support/**/*.rb"].sort.each { |path| require(path) }

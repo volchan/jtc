@@ -4,6 +4,10 @@ require 'jtc/parser'
 require 'jtc/validator'
 
 RSpec.describe JTC::Validator do
+  let(:test_instance) { described_class.new('') }
+
+  it_behaves_like 'Utils'
+
   describe '#validate_json!' do
     let(:input) { JTC::Parser.parse(File.read(load_test_data('users.json'))) }
 
